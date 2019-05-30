@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DesafioEscalantHospitalCentral.Models;
+using DesafioEscalantHospitalCentral.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,18 +15,15 @@ namespace DesafioEscalantHospitalCentral.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Index(FormCollection form)
         {
-            ViewBag.Message = "Your application description page.";
+            var model = new AmostraPacienteVirusViewModel() { AmostraEntrada = form["amostra_entrada"] };
 
-            return View();
-        }
+            var lab = new Laboratorio();
+            lab.ProcessaAmostra(model);
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return Json(lab.Resultado);
         }
     }
 }
